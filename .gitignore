@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+dist/
+*.egg-info/
+.pytest_cache/
+
+# FastAPI / SQLite
+*.db
+*.sqlite
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ESP32 / PlatformIO
+firmware/.pio/
+firmware/.vscode/
+firmware/build/
