@@ -16,6 +16,17 @@ class RoomSensorState(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
 
 
+class SensorEventLog(Base):
+    __tablename__ = "sensor_event_log"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    room_id: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    room_name: Mapped[str] = mapped_column(String, nullable=False)
+    presence: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    status: Mapped[str] = mapped_column(String, nullable=False)  # LIVRE, RESERVADO, OCUPADO, USO_NAO_AGENDADO
+    recorded_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), index=True)
+
+
 class BookingCache(Base):
     __tablename__ = "booking_cache"
 
