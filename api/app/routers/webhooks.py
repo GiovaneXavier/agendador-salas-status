@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.security import verify_token
 from app.database import get_db
 from app.models.room_state import BookingCache
 from app.schemas.booking import BookingWebhookPayload
@@ -11,7 +12,7 @@ from app.services.websocket_manager import manager
 router = APIRouter(prefix="/webhooks", tags=["webhooks"])
 
 
-@router.post("/booking")
+@router.post("/booking", dependencies=[Depends(verify_token)])
 async def booking_webhook(payload: BookingWebhookPayload, db: AsyncSession = Depends(get_db)):
     if payload.event == "cancelled":
         booking = await db.scalar(
