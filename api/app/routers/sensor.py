@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.security import verify_token
 from app.database import get_db
 from app.models.room_state import RoomSensorState, SensorEventLog
 from app.schemas.sensor import SensorPayload
@@ -11,7 +12,7 @@ from app.services.websocket_manager import manager
 router = APIRouter(prefix="/sensor", tags=["sensor"])
 
 
-@router.post("/{room_id}")
+@router.post("/{room_id}", dependencies=[Depends(verify_token)])
 async def receive_sensor_event(room_id: str, payload: SensorPayload, db: AsyncSession = Depends(get_db)):
     sensor = await db.scalar(select(RoomSensorState).where(RoomSensorState.room_id == room_id))
 
